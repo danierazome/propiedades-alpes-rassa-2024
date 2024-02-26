@@ -7,9 +7,9 @@
 
 # Servicio Listado propiedades
 ## Vista Informacion
-![apps_no_monoliticas-FUNCIONAL_MODULO_PROPIEDADES](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/9d8d706f-55f1-4bb6-b359-1a4c63ef4dc7)
+![apps_no_monoliticas-FUNCIONAL_MODULO_PROPIEDADES (2)](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/c8925a72-c83c-42fc-aba5-e994872d5401)
 
-# Instrucciones correr conponentes
+# Instrucciones correr conponentes local
 
 ## Requisitos
 
