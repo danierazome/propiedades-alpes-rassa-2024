@@ -21,6 +21,7 @@ class Status(str, Enum):
 
 
 class PropiedadType(str, Enum):
+    POR_DEFINIR = "POR_DEFINIR"
     INDUSTRIAL = "INDUSTRIAL"
     OFICINA = "OFICINA"
     MINORISTA = "MINORISTA"

@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' /home/daneradev/Desktop/MISO/semestre_3/CICLO_3.1/SOLUCIONES_NO_MONOLITICAS/PROYECTO/propiedades-alpes-rassa-2024/auditoria/audit-venv/bin/python "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from coverage.cmdline import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
