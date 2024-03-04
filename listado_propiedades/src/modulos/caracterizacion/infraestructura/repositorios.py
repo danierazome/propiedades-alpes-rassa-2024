@@ -17,10 +17,9 @@ class RepositorioCaracterizacionPostgres(RepositorioCaracterizacion):
     def fabrica_caracterizacion(self):
         return self._fabrica_caracterizacion
 
-    def obtener_por_id(self, id: str) -> Caracterizacion:
-        caracterizacion_dto = db.session.query(
-            CaracterizacionDTO).filter_by(id=id).one()
-        return self.fabrica_caracterizacion.crear_objeto(caracterizacion_dto, MapeadorCaracterizacion())
+    def obtener_por_id(self, id: str) -> any:
+        return db.session.query(
+            CaracterizacionDTO).filter_by(propiedad_id=id).first()
 
     def obtener_todos(self) -> list[Caracterizacion]:
         caracterizaciones_dto = db.session.query(CaracterizacionDTO).all()
