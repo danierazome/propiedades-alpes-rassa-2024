@@ -1,33 +1,149 @@
 version: "3.8"
 services:
-  alpes_db:
+  pulsar-standalone:
+    hostname: pulsar-standalone
+    image: apachepulsar/pulsar:3.2.0
+    container_name: pulsar-standalone
+    networks:
+      - pulsar_net
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    volumes:
+      - pulsardata:/pulsar/data
+      - pulsarconf:/pulsar/conf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://pulsar-standalone:8080/metrics/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    command: bin/pulsar standalone
+
+  auditoria_db:
     image: postgres:latest
-    container_name: alpes-database
+    container_name: auditoria-database
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=alpes
+      - POSTGRES_DB=auditoria-alpes
     networks:
-      - alpes_net
+      - auditoria_net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d alpes -U user"]
+      test: ["CMD-SHELL", "pg_isready -d auditoria-alpes -U user"]
       interval: 3s
       timeout: 5s
       retries: 5
 
-  propiedades_management:
-    image: listado-propiedades
-    build: ./listado_propiedades
-    container_name: listado-propiedades
+  propiedades_db:
+    image: postgres:latest
+    container_name: propiedades-database
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=propiedades-alpes
+    networks:
+      - propiedades_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d propiedades-alpes -U user"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  planos_db:
+    image: postgres:latest
+    container_name: planos-database
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=planos-alpes
+    networks:
+      - planos_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d planos-alpes -U user"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  planos_management:
+    image: planos
+    build: ./planos
+    container_name: planos
     ports:
       - "5000:5000"
     environment:
-      - DB_URL=postgresql://user:password@alpes_db:5432/alpes
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_HOST=planos_db
+      - DB_PORT=5432
+      - DB_NAME=planos-alpes
+      - PULSAR_HOST=pulsar-standalone
     networks:
-      - alpes_net
+      - app_net
+      - planos_net
+      - pulsar_net
     depends_on:
-      alpes_db:
+      planos_db:
+        condition: service_healthy
+      pulsar-standalone:
         condition: service_healthy
 
+  auditoria_management:
+    image: auditoria-management
+    build: ./auditoria
+    container_name: auditoria-management
+    ports:
+      - "5001:5001"
+    environment:
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_HOST=auditoria_db
+      - DB_PORT=5432
+      - DB_NAME=auditoria-alpes
+      - PULSAR_HOST=pulsar-standalone
+    networks:
+      - app_net
+      - auditoria_net
+      - pulsar_net
+    depends_on:
+      auditoria_db:
+        condition: service_healthy
+      pulsar-standalone:
+        condition: service_healthy
+
+  propiedades_management:
+    image: propiedades_management
+    build: ./listado_propiedades
+    container_name: listado-propiedades
+    ports:
+      - "5002:5002"
+    environment:
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_HOST=propiedades_db
+      - DB_PORT=5432
+      - DB_NAME=propiedades-alpes
+      - PULSAR_HOST=pulsar-standalone
+    networks:
+      - app_net
+      - propiedades_net
+      - pulsar_net
+    depends_on:
+      propiedades_db:
+        condition: service_healthy
+      pulsar-standalone:
+        condition: service_healthy
+
+volumes:
+  planos-database-volume:
+  auditoria-database-volume:
+  propiedades-database-volume:
+  pulsardata:
+  pulsarconf:
+
 networks:
-  alpes_net:
+  app_net:
+  planos_net:
+  auditoria_net:
+  propiedades_net:
+  pulsar_net:

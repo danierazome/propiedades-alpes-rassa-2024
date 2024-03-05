@@ -3,12 +3,18 @@ import time
 
 
 def database_url():
-    return 'postgresql://user:password@172.23.0.2:5432/alpes'
-    # return os.environ['DB_URL']
+    user = os.getenv('DB_USER')
+    password = os.getenv('DB_PASSWORD')
+    host = os.getenv('DB_HOST')
+    port = os.getenv('DB_PORT')
+    db_name = os.getenv('DB_NAME')
+
+    return f'postgresql://{user}:{password}@{host}:{port}/{db_name}'
 
 
 def broker_host():
-    return '172.17.0.2'
+    pulsar_url = os.environ.get('PULSAR_HOST')
+    return pulsar_url
 
 
 def time_millis():
