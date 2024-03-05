@@ -7,7 +7,7 @@
 
 # Servicio Listado propiedades
 ## Vista Informacion
-![apps_no_monoliticas-FUNCIONAL_MODULO_PROPIEDADES (2)](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/c8925a72-c83c-42fc-aba5-e994872d5401)
+![image](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124454549/1c191643-5155-4be7-80dd-1930296dd54d)
 
 # Instrucciones correr conponentes local
 
@@ -15,7 +15,7 @@
 
 - Docker
 - Postman o similar
-- Recomendable ejucutar el servicio en ambiente Linux
+- Recomendable ejucutar el servicio en ambiente UNIX ya sea Linux o MacOS
 
 ## Pasos
 
@@ -25,6 +25,8 @@
 - Realizar pruebas utilizando la collection que se encuetra adjunta
 
 ## Collection
-[NO-MONOLITICAS.postman_collection.json](https://github.com/danierazome/propiedades-alpes-rassa-2024/files/14411286/NO-MONOLITICAS.postman_collection.json)
+[NO-MONOLITICAS.postman_colddddlection.json](https://github.com/danierazome/propiedades-alpes-rassa-2024/files/14492004/NO-MONOLITICAS.postman_colddddlection.json)
 
 
+## Video
+https://github.com/danierazome/propiedades-alpes-rassa-2024/wiki/Entrega-4-Assets#video-entrega
