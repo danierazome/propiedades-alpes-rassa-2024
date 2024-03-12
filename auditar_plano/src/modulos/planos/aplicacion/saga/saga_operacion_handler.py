@@ -21,6 +21,7 @@ class SagaOperacionHandler(EventHandler):
     def handle(self, event: SagaOperacionEvento):
         from src.config.db import db
         print('-----------SAGA OPERACION HANDLERR')
+        print(type(event.evento_dominio))
         print(event.evento_dominio.__dict__)
 
         coordinador = CoordinadorAuditoriaPlanos()

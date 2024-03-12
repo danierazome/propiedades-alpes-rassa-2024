@@ -88,7 +88,6 @@ def suscribirse_a_caract_creada_evento(app):
             mensaje = consumidor.receive()
             consumidor.acknowledge(mensaje)
             evento_aplicacion = CaracterizacionCreada(
-                id=mensaje.value().data.id,
                 propiedad_id=mensaje.value().data.propiedad_id,
                 correlacion_id=mensaje.value().data.correlacion_id
             )
@@ -197,6 +196,7 @@ def suscribirse_a_auditoria_creada_fallida(app):
         while True:
             mensaje = consumidor.receive()
             consumidor.acknowledge(mensaje)
+            print('------------- AUDITORIA CREAR FALLLO')
             evento_aplicacion = AuditoriaCreadaFallida(
                 propiedad_id=mensaje.value().data.propiedad_id,
                 correlacion_id=mensaje.value().data.correlacion_id,
@@ -224,6 +224,7 @@ def suscribirse_a_plano_creada_fallida(app):
         while True:
             mensaje = consumidor.receive()
             consumidor.acknowledge(mensaje)
+            print('------------- PLANO CREAR FALLLO')
             evento_aplicacion = PlanoCreadoFallido(
                 propiedad_id=mensaje.value().data.propiedad_id,
                 correlacion_id=mensaje.value().data.correlacion_id,
@@ -251,6 +252,8 @@ def suscribirse_a_caract_creada_fallida(app):
         while True:
             mensaje = consumidor.receive()
             consumidor.acknowledge(mensaje)
+            print('------------- CARARCT CREAR FALLLO')
+
             evento_aplicacion = CaracterizacionCreadaFallido(
                 propiedad_id=mensaje.value().data.propiedad_id,
                 correlacion_id=mensaje.value().data.correlacion_id,

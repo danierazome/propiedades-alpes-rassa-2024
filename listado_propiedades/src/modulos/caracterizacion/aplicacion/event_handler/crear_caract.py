@@ -33,38 +33,38 @@ class CrearCaractHandler(ActualizarCaractBaseHandler):
                 correlacion_id=event.event_payload.correlacion_id
             )
             HandlerCaractIntegracion.handle_caract_creada_fallida(evento_plano)
-
-        repositorio = self.fabrica_repositorio.crear_objeto(
-            RepositorioCaracterizacion.__class__)
-
-        caracterizacion = repositorio.obtener_por_id(
-            event.event_payload.propiedad_id)
-
-        if caracterizacion is not None:
-            caracterizacion.status = event.event_payload.status
-            caracterizacion.floors = event.event_payload.floors
-            caracterizacion.zone = event.event_payload.zone
-            caracterizacion.fecha_actualizacion = datetime.now()
         else:
-            caracterizacion = CaracterizacionDTO(
-                id=str(uuid.uuid4()),
+            repositorio = self.fabrica_repositorio.crear_objeto(
+                RepositorioCaracterizacion.__class__)
+
+            caracterizacion = repositorio.obtener_por_id(
+                event.event_payload.propiedad_id)
+
+            if caracterizacion is not None:
+                caracterizacion.status = event.event_payload.status
+                caracterizacion.floors = event.event_payload.floors
+                caracterizacion.zone = event.event_payload.zone
+                caracterizacion.fecha_actualizacion = datetime.now()
+            else:
+                caracterizacion = CaracterizacionDTO(
+                    id=str(uuid.uuid4()),
+                    propiedad_id=event.event_payload.propiedad_id,
+                    fecha_creacion=datetime.now(),
+                    fecha_actualizacion=datetime.now(),
+                    floors=event.event_payload.floors,
+                    zone=event.event_payload.zone,
+                    status=event.event_payload.status,
+                )
+                repositorio.agregar_dto(caracterizacion)
+
+            db.session.commit()
+
+            evento_plano = CaracterizacionCreada(
                 propiedad_id=event.event_payload.propiedad_id,
-                fecha_creacion=datetime.now(),
-                fecha_actualizacion=datetime.now(),
-                floors=event.event_payload.floors,
-                zone=event.event_payload.zone,
-                status=event.event_payload.status,
+                correlacion_id=event.event_payload.correlacion_id
+
             )
-            repositorio.agregar_dto(caracterizacion)
-
-        db.session.commit()
-
-        evento_plano = CaracterizacionCreada(
-            propiedad_id=event.event_payload.propiedad_id,
-            correlacion_id=event.event_payload.correlacion_id
-
-        )
-        HandlerCaractIntegracion.handle_caract_creada(evento_plano)
+            HandlerCaractIntegracion.handle_caract_creada(evento_plano)
 
 
 @evento.register(CrearCaractEvento)

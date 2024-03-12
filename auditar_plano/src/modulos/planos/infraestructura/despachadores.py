@@ -72,6 +72,7 @@ class Despachador:
             propiedad_id=evento.propiedad_id,
             correlacion_id=evento.correlacion_id
         )
+        print('------------- ELIMINAR AUDITORIA')
         comando_integracion = ComandoEliminarAuditoria(data=payload)
         self._publicar_mensaje(comando_integracion, topico,
                                AvroSchema(ComandoEliminarAuditoria))
@@ -81,6 +82,8 @@ class Despachador:
             propiedad_id=evento.propiedad_id,
             correlacion_id=evento.correlacion_id
         )
+        print('------------- ELIMINAR PLANO')
+
         comando_integracion = ComandoEliminarPlano(data=payload)
         self._publicar_mensaje(comando_integracion, topico,
                                AvroSchema(ComandoEliminarPlano))
@@ -90,6 +93,8 @@ class Despachador:
             propiedad_id=evento.propiedad_id,
             correlacion_id=evento.correlacion_id
         )
+        print('------------- ELIMINAR CARACT')
+
         comando_integracion = ComandoEliminarCaract(data=payload)
         self._publicar_mensaje(comando_integracion, topico,
                                AvroSchema(ComandoEliminarCaract))

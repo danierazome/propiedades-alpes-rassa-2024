@@ -99,8 +99,9 @@ class CoordinadorCompensacionAuditoriaPlanos(CoordinadorCompensacion):
 
     def construir_comando(self, evento: EventoDominio):
         if self.index == 0:
-            return EliminarAuditoria(evento=evento)
+            return EliminarCaract(evento=evento)
+
         elif self.index == 1:
             return EliminarPlano(evento=evento)
         elif self.index == 2:
-            return EliminarCaract(evento=evento)
+            return EliminarAuditoria(evento=evento)

@@ -49,6 +49,7 @@ def suscribirse_a_comando_eliminar_plano(app):
         while True:
             mensaje = consumidor.receive()
             consumidor.acknowledge(mensaje)
+            print('-------------ELIMINAR PLANO CONSUMIRODR')
             eliminar_auditoria_evento = EliminarPlanoEvent(
                 event_payload=mensaje.value().data)
 

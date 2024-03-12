@@ -105,8 +105,12 @@ class CoordinadorCompensacion(CoordinadorSaga, ABC):
         for i, paso in enumerate(self.pasos):
 
             if isinstance(evento, paso.evento):
+                print('-----------COMPENSACION ENTRO')
+                print(paso.evento)
                 return i
             if isinstance(evento, paso.evento_error):
+                print('-----------COMPENSACION ENTRO ERROR')
+                print(paso.evento)
                 return i
         raise Exception("Evento no hace parte de la transacción")
 
@@ -119,4 +123,6 @@ class CoordinadorCompensacion(CoordinadorSaga, ABC):
         self.persistir_en_saga_log(evento)
         if self.es_ultima_transaccion(index) == False:
             self.index = index + 1
+            print('-----------COMPENSACION INDEX')
+            print(self.index)
             self.publicar_comando(evento)
