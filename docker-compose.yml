@@ -143,7 +143,7 @@ services:
     build: ./auditar_plano
     container_name: auditar_planos
     ports:
-      - "5002:5002"
+      - "5003:5003"
     environment:
       - DB_URL=postgresql://user:password@saga_log_db:5432/alpes
       - PULSAR_HOST=pulsar-standalone
