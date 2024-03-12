@@ -5,9 +5,9 @@
 - Daniel Erazo
 - Santiago Rassa
 
-# Servicio Listado propiedades
-## Vista Funcional
-![image](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/cfaf1f07-6ba4-4d38-adb7-ef5a30dcd774)
+# Vista Funcional del sistema implementado
+![entrega_final_d_c_c](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/fcabbac4-f523-446c-b20a-053054003286)
+
 
 ## Vista de Despliegue
 ![image](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/cf8f1e30-8cd2-4db3-abf4-25c3e4797b25)
