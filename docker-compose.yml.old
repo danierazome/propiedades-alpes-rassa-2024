@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  alpes_db:
+    image: postgres:latest
+    container_name: alpes-database
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=alpes
+    networks:
+      - alpes_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d alpes -U user"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  propiedades_management:
+    image: listado-propiedades
+    build: ./listado_propiedades
+    container_name: listado-propiedades
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_URL=postgresql://user:password@alpes_db:5432/alpes
+    networks:
+      - alpes_net
+    depends_on:
+      alpes_db:
+        condition: service_healthy
+
+networks:
+  alpes_net:
