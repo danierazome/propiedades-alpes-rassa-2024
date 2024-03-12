@@ -41,7 +41,7 @@ def shutdown_event():
     for task in tasks:
         task.cancel()
 
-@app.get('/stream')
+@app.get('/bff/stream')
 async def stream_mensajes(request: Request):
     def nuevo_evento():
         global eventos
@@ -60,5 +60,8 @@ async def stream_mensajes(request: Request):
 
     return EventSourceResponse(leer_eventos())
 
+@app.get('/health')
+def health():
+    return {"status": "up"}
 
-app.include_router(v1, prefix="/v1")
+app.include_router(v1, prefix="/bff")
