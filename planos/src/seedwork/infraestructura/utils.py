@@ -9,6 +9,7 @@ def database_url():
 
 def broker_host():
     return '172.17.0.2'
+    # return os.environ['PULSAR_HOST']
 
 
 def time_millis():

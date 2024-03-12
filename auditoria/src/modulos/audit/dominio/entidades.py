@@ -2,10 +2,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import src.modulos.audit.dominio.objetos_valor as ov
-from .eventos import ActualizarCaracterizacion, ActualizarPlano
 from src.seedwork.dominio.entidades import AgregacionRaiz
 import uuid
-from src.modulos.audit.infraestructura.schema.v1.eventos import PlanoCreadoPayload
 import random
 
 

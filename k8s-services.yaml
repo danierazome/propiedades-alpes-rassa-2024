@@ -1,29 +1,148 @@
-#### PLANOS SERVICES
+# #### PLANOS SERVICES
+# ## DEPLOYMENT
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: planos
+#   labels:
+#     app: planos
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: planos
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       labels:
+#         app: planos
+#     spec:
+#       containers:
+#         - name: planos
+#           image: us-central1-docker.pkg.dev/no-mono/app-nativas-uniandes/planos:1.0
+#           resources:
+#             requests:
+#               memory: "64Mi"
+#               cpu: "250m"
+#             limits:
+#               memory: "128Mi"
+#               cpu: "500m"
+#           ports:
+#             - containerPort: 5000
+#           imagePullPolicy: Always
+#           env:
+#             - name: "DB_URL"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_URL
+#             - name: "PULSAR_HOST"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: PULSAR_HOST
+
+# ## SERVICE - LOAD BALANCER
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: servicio-planos
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: planos
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 5000
+
+# #### AUDITORIA   SERVICES
+# ## DEPLOYMENT
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: auditoria
+#   labels:
+#     app: auditoria
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: auditoria
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       labels:
+#         app: auditoria
+#     spec:
+#       containers:
+#         - name: auditoria
+#           image: us-central1-docker.pkg.dev/no-mono/app-nativas-uniandes/auditoria:1.0
+#           resources:
+#             requests:
+#               memory: "64Mi"
+#               cpu: "250m"
+#             limits:
+#               memory: "128Mi"
+#               cpu: "500m"
+#           ports:
+#             - containerPort: 5001
+#           imagePullPolicy: Always
+#           env:
+#             - name: "DB_URL"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_URL
+#             - name: "PULSAR_HOST"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: PULSAR_HOST
+
+# ## SERVICE - LOAD BALANCER
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: servicio-auditoria
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: auditoria
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 5001
+
+#### PROPIEDADES   SERVICES
 ## DEPLOYMENT
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: planos
+  name: propiedades
   labels:
-    app: planos
+    app: propiedades
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: planos
+      app: propiedades
   strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
-        app: planos
+        app: propiedades
     spec:
       containers:
-        - name: planos
-          image: us-central1-docker.pkg.dev/no-mono/app-nativas-uniandes/planos:1.0
+        - name: propiedades
+          image: us-central1-docker.pkg.dev/no-mono/app-nativas-uniandes/propiedades:1.0
           resources:
             requests:
               memory: "64Mi"
@@ -32,20 +151,116 @@ spec:
               memory: "128Mi"
               cpu: "500m"
           ports:
-            - containerPort: 5000
+            - containerPort: 5002
           imagePullPolicy: Always
+          env:
+            - name: "DB_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: app-mono-secrects
+                  key: DB_URL
+            - name: "PULSAR_HOST"
+              valueFrom:
+                secretKeyRef:
+                  name: app-mono-secrects
+                  key: PULSAR_HOST
 
 ## SERVICE - LOAD BALANCER
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: servicio-planos
+  name: servicio-propiedades
 spec:
   type: LoadBalancer
   selector:
-    app: planos
+    app: propiedades
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 5000
+      targetPort: 5002
+#### USERS SERVICES
+## DEPLOYMENT
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: user-management
+#   labels:
+#     app: user-management
+# spec:
+#   replicas: 2
+#   selector:
+#     matchLabels:
+#       app: user-management
+#   strategy:
+#     type: Recreate
+#   template:
+#     metadata:
+#       labels:
+#         app: user-management
+#     spec:
+#       affinity:
+#         nodeAffinity:
+#           requiredDuringSchedulingIgnoredDuringExecution:
+#             nodeSelectorTerms:
+#               - matchExpressions:
+#                   - key: topology.kubernetes.io/zone
+#                     operator: In
+#                     values:
+#                       - us-central1-a
+#                       - us-central1-f
+#       containers:
+#         - name: user-management
+#           image: us-central1-docker.pkg.dev/no-mono/app-nativas-uniandes/user-management:1.0
+#           resources:
+#             requests:
+#               memory: "64Mi"
+#               cpu: "250m"
+#             limits:
+#               memory: "128Mi"
+#               cpu: "500m"
+#           ports:
+#             - containerPort: 3000
+#           imagePullPolicy: Always
+#           env:
+#             - name: "DB_USER"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_USER
+#             - name: "DB_PASSWORD"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_PASSWORD
+#             - name: "DB_HOST"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_HOST
+#             - name: "DB_PORT"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_PORT
+#             - name: "DB_NAME"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-mono-secrects
+#                   key: DB_NAME
+
+# ## SERVICE - LOAD BALANCER
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: servicio-user-management
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: user-management
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 3000

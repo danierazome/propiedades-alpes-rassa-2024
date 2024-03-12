@@ -3,12 +3,22 @@ from src.seedwork.infraestructura.schema.v1.comandos import (
     ComandoIntegracion)
 
 
-class ComandoActualizarCaractPayload(ComandoIntegracion):
+class ComandoCrearCaractPayload(ComandoIntegracion):
     propiedad_id = String()
-    status = String()
-    floors = Integer()
+    correlacion_id = String()
     zone = Integer()
+    floors = Integer()
+    status = String()
 
 
-class ComandoActualizarCaract(ComandoIntegracion):
-    data = ComandoActualizarCaractPayload()
+class ComandoCrearCaract(ComandoIntegracion):
+    data = ComandoCrearCaractPayload()
+
+
+class ComandoEliminarCaractPayload(ComandoIntegracion):
+    propiedad_id = String()
+    correlacion_id = String()
+
+
+class ComandoEliminarCaract(ComandoIntegracion):
+    data = ComandoEliminarCaractPayload()

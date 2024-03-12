@@ -15,6 +15,10 @@ class RepositorioAuditoriaPostgres(RepositorioAuditoria):
     def fabrica_auditoria(self):
         return self._fabrica_auditoria
 
+    def obtener_por_id_dto(self, id: str) -> any:
+        return db.session.query(
+            AuditoriaDTO).filter_by(propiedad_id=id).first()
+
     def obtener_por_id(self, id: str) -> Auditoria:
         auditoria_dto = db.session.query(
             AuditoriaDTO).filter_by(id=id).one()
@@ -34,8 +38,10 @@ class RepositorioAuditoriaPostgres(RepositorioAuditoria):
         raise NotImplementedError
 
     def eliminar(self, id: str):
-        # TODO
-        raise NotImplementedError
+        auditoria = db.session.query(
+            AuditoriaDTO).filter_by(propiedad_id=id).first()
+        if auditoria is not None:
+            db.session.delete(auditoria)
 
     def commit(self):
         db.session.commit()

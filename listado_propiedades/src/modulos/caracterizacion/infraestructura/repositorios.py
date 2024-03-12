@@ -31,10 +31,15 @@ class RepositorioCaracterizacionPostgres(RepositorioCaracterizacion):
             caracterizacion, MapeadorCaracterizacion())
         db.session.add(caracterizacion_dto)
 
+    def agregar_dto(self, dto):
+        db.session.add(dto)
+
     def actualizar(self, caracterizacion: Caracterizacion):
         # TODO
         raise NotImplementedError
 
     def eliminar(self, id: str):
-        # TODO
-        raise NotImplementedError
+        caract = db.session.query(
+            CaracterizacionDTO).filter_by(propiedad_id=id).first()
+        if caract is not None:
+            db.session.delete(caract)

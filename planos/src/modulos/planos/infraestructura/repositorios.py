@@ -33,10 +33,15 @@ class RepositorioPlanoPostgres(RepositorioPlano):
             plano, MapeadorPlano())
         db.session.add(plano_dto)
 
+    def agregar_dto(self, dto):
+        db.session.add(dto)
+
     def actualizar(self, plano: Plano):
         plano_dto = self.fabrica_plano.crear_objeto(
             plano, MapeadorPlano())
 
     def eliminar(self, id: str):
-        # TODO
-        raise NotImplementedError
+        plano = db.session.query(
+            PlanoDTO).filter_by(propiedad_id=id).first()
+        if plano is not None:
+            db.session.delete(plano)
