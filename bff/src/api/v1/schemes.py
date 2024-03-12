@@ -11,7 +11,7 @@ PDA_HOST = os.getenv("PDA_HOST", default="localhost")
 FORMATO_FECHA = '%Y-%m-%dT%H:%M:%SZ'
 
 def obtener_caracterizacion (root) -> typing.List["Caracterizacion"]:
-    caracterizaciones_json = requests.get(f'http://{PDA_HOST}:5002/caracterizacion/').json()
+    caracterizaciones_json = requests.get(f'http://propiedades_management:5002/caracterizacion/').json()
     caracterizaciones = []
 
     for caracterizacion in caracterizaciones_json:
@@ -19,8 +19,8 @@ def obtener_caracterizacion (root) -> typing.List["Caracterizacion"]:
             Caracterizacion(
                 id = caracterizacion.get('id'),
                 propiedad_id = caracterizacion.get('id'),
-                fecha_creacion = datetime.strptime(caracterizacion.get('fecha_creacion'), FORMATO_FECHA), 
-                fecha_actualizacion = datetime.strptime(caracterizacion.get('fecha_actualizacion'), FORMATO_FECHA), 
+                fecha_creacion = caracterizacion.get('fecha_creacion'), 
+                fecha_actualizacion = caracterizacion.get('fecha_actualizacion'), 
                 floors = caracterizacion.get('floors'),
                 zone = caracterizacion.get('zone'),
                 type = caracterizacion.get('type'),

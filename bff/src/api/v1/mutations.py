@@ -11,7 +11,7 @@ from .schemes import *
 class Mutation:
 
     @strawberry.mutation
-    async def crear_reserva(self, propiedad_id: str, floors: int, zone: int, area_total: str, area_construida: str,info: Info) -> PlanosRespuesta:
+    async def auditar_plano(self, propiedad_id: str, floors: int, zone: int, area_total: str, area_construida: str,info: Info) -> PlanosRespuesta:
         payload = dict(
             propiedad_id = propiedad_id,
             floors = floors,
@@ -30,6 +30,7 @@ class Mutation:
             data = payload
         )
         despachador = Despachador()
-        info.context["background_tasks"].add_task(despachador.publicar_mensaje, comando, "actualizar-plano", "public/default/actualizar-plano")
+        info.context["background_tasks"].add_task(despachador.publicar_mensaje, comando, "caract-creado-v1", "public/default/caract-creado-v1")
+        response = requests.post(f'http://auditar_planos:5003/auditar-planos/', data=json.dumps(payload), headers=obtener_headers())
         
-        return PlanosRespuesta(mensaje="Procesando Mensaje", codigo=203)
+        return PlanosRespuesta(mensaje="Procesando", codigo=response.status_code)
