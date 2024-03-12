@@ -6,51 +6,57 @@ import time
 import logging
 import traceback
 
-from src.modulos.audit.infraestructura.schema.v1.eventos import EventoPlanoCreado
+from src.modulos.audit.infraestructura.schema.v1.comandos import ComandoCrearAuditoria, \
+    ComandoCrearAuditoriaPayload, ComandoEliminarAuditoria, ComandoEliminarAuditoriaPayload
 from src.seedwork.infraestructura import utils
 from src.seedwork.aplicacion.evento_handler import ejecutar_evento
-from src.modulos.audit.aplicacion.event_handler.plano_creado_event import PlanoCreadoEvento
+from src.modulos.audit.aplicacion.event_handler.crear_auditoria import CrearAuditoria
+from src.modulos.audit.aplicacion.event_handler.eliminar_auditoria import EliminarAuditoria
 
 
-def suscribirse_a_eventos(app):
+def suscribirse_a_comando_crear_auditoria(app):
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('evento-plano-creado', consumer_type=_pulsar.ConsumerType.Shared,
-                                       subscription_name='aeroalpes-sub-eventos', schema=AvroSchema(EventoPlanoCreado))
+        consumidor = cliente.subscribe('comando-crear-auditoria-v1', consumer_type=_pulsar.ConsumerType.Shared,
+                                       subscription_name='propiedades-alples-miso', schema=AvroSchema(ComandoCrearAuditoria))
 
         while True:
             mensaje = consumidor.receive()
             consumidor.acknowledge(mensaje)
-            plano_creado_evento = PlanoCreadoEvento(
-                plano_creado_payload=mensaje.value().data)
+            crear_auditoria_evento = CrearAuditoria(
+                evento_payload=mensaje.value().data)
 
-            ejecutar_evento(plano_creado_evento, app=app)
+            ejecutar_evento(crear_auditoria_evento, app=app)
 
         cliente.close()
     except:
-        logging.error('ERROR: Suscribiendose al tópico de eventos!')
+        logging.error(
+            'ERROR: Suscribiendose al tópico de comando crear auditoria!')
         traceback.print_exc()
         if cliente:
             cliente.close()
 
 
-# def suscribirse_a_comandos():
-#     cliente = None
-#     try:
-#         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-#         consumidor = cliente.subscribe('comandos-reserva', consumer_type=_pulsar.ConsumerType.Shared,
-#                                        subscription_name='aeroalpes-sub-comandos', schema=AvroSchema(ComandoCrearReserva))
+def suscribirse_a_comando_eliminar_auditoria(app):
+    cliente = None
+    try:
+        cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
+        consumidor = cliente.subscribe('comando-eliminar-auditoria-v1', consumer_type=_pulsar.ConsumerType.Shared,
+                                       subscription_name='propiedades-alples-miso', schema=AvroSchema(ComandoEliminarAuditoria))
 
-#         while True:
-#             mensaje = consumidor.receive()
-#             print(f'Comando recibido: {mensaje.value().data}')
+        while True:
+            mensaje = consumidor.receive()
+            consumidor.acknowledge(mensaje)
+            eliminar_auditoria_evento = EliminarAuditoria(
+                evento_payload=mensaje.value().data)
 
-#             consumidor.acknowledge(mensaje)
+            ejecutar_evento(eliminar_auditoria_evento, app=app)
 
-#         cliente.close()
-#     except:
-#         logging.error('ERROR: Suscribiendose al tópico de comandos!')
-#         traceback.print_exc()
-#         if cliente:
-#             cliente.close()
+        cliente.close()
+    except:
+        logging.error(
+            'ERROR: Suscribiendose al tópico de comando eliminar auditoria!')
+        traceback.print_exc()
+        if cliente:
+            cliente.close()

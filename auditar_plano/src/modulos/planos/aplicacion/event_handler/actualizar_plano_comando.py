@@ -1,17 +1,17 @@
 from src.seedwork.aplicacion.evento_handler import Evento
 from src.seedwork.aplicacion.evento_handler import ejecutar_evento as evento
-from src.modulos.planos.infraestructura.repositorios import RepositorioPlano
+from src.modulos.planos.infraestructura.repositorios import RepositorioSagaLog
 from dataclasses import dataclass
 from .base import ActualizarPlanoBaseHandler
-from src.modulos.planos.aplicacion.mapeadores import MapeadorPlano
-from src.modulos.planos.infraestructura.schema.v1.comandos import ComandoActualizarPlanoPayload
+from src.modulos.planos.aplicacion.mapeadores import MapeadorAuditoriaPlano
+from src.modulos.planos.infraestructura.schema.v1.comandos import ComandoCrearPlanoPayload
 from src.modulos.planos.dominio.entidades import Plano
 from src.seedwork.infraestructura.uow import UnidadTrabajoPuerto
 
 
 @dataclass
 class ActualizarPlanoComando(Evento):
-    comando_payload: ComandoActualizarPlanoPayload
+    comando_payload: ComandoCrearPlanoPayload
     ...
 
 
@@ -21,7 +21,7 @@ class ActualizarPlanoHandler(ActualizarPlanoBaseHandler):
         from src.config.db import db
 
         repositorio = self.fabrica_repositorio.crear_objeto(
-            RepositorioPlano.__class__)
+            RepositorioSagaLog.__class__)
 
         plano = repositorio.obtener_por_propiedad_id(
             event.comando_payload.propiedad_id)

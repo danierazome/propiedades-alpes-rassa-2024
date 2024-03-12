@@ -4,23 +4,24 @@ from src.seedwork.infraestructura.schema.v1.comandos import (
     ComandoIntegracion)
 
 
-class ComandoActualizarCaractPayload(ComandoIntegracion):
+class ComandoCrearAuditoriaPayload(ComandoIntegracion):
     propiedad_id = String()
-    status = String()
-    floors = Integer()
+    correlacion_id = String()
+    area_construida = String()
+    area_total = String()
     zone = Integer()
+    floors = Integer()
+    client = String()
 
 
-class ComandoActualizarCaract(ComandoIntegracion):
-    data = ComandoActualizarCaractPayload()
+class ComandoCrearAuditoria(ComandoIntegracion):
+    data = ComandoCrearAuditoriaPayload()
 
 
-# PLANOS
-
-class ComandoActualizarPlanoPayload(ComandoIntegracion):
+class ComandoEliminarAuditoriaPayload(ComandoIntegracion):
     propiedad_id = String()
-    status = String()
+    correlacion_id = String()
 
 
-class ComandoActualizarPlano(ComandoIntegracion):
-    data = ComandoActualizarPlanoPayload()
+class ComandoEliminarAuditoria(ComandoIntegracion):
+    data = ComandoEliminarAuditoriaPayload()

@@ -22,20 +22,3 @@ def dar_caracterizacion():
         return map_caracterizacion.dto_list_a_externo(query_resultado.resultado)
     else:
         return [{'message': 'GET!'}]
-
-
-@bp.route('/', methods=('POST',))
-def crear_caracterizacion_api():
-    try:
-        reserva_dict = request.json
-
-        map_caracterizacion = MapeadorCaracterizacionDTOJson()
-
-        caracterizacion_dto = map_caracterizacion.externo_a_dto(reserva_dict)
-        comando = CrearCaracterizacion(caracterizacionDTO=caracterizacion_dto)
-
-        ejecutar_commando(comando)
-
-        return Response('{}', status=202, mimetype='application/json')
-    except ExcepcionDominio as e:
-        return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')

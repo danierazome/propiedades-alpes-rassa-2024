@@ -25,13 +25,11 @@ def comenzar_consumidor(app):
     import threading
     import src.modulos.planos.infraestructura.consumidores as cliente_comando
 
-    # # Suscripción a eventos
-    # threading.Thread(target=cliente.suscribirse_a_eventos).start()
-    # threading.Thread(target=vuelos.suscribirse_a_eventos).start()
-
-    # # Suscripción a comandos
     threading.Thread(
-        target=cliente_comando.suscribirse_a_actualizar_plano_comando, args=[app]).start()
+        target=cliente_comando.suscribirse_a_comando_crear_plano, args=[app]).start()
+
+    threading.Thread(
+        target=cliente_comando.suscribirse_a_comando_eliminar_plano, args=[app]).start()
 
 
 def create_app(configuracion={}):

@@ -13,8 +13,8 @@ def database_url():
 
 
 def broker_host():
-    pulsar_url = os.environ.get('PULSAR_HOST')
-    return pulsar_url
+  return '172.17.0.2'
+  # return os.environ['PULSAR_HOST']
 
 
 def time_millis():

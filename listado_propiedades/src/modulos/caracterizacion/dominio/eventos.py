@@ -7,4 +7,18 @@ from src.seedwork.dominio.eventos import (EventoDominio)
 class CaracterizacionCreada(EventoDominio):
     id: str = None
     propiedad_id: str = None
-    status: str = None
+    correlacion_id: str = None
+
+
+@dataclass
+class CaracterizacionEliminado(EventoDominio):
+    id: str = None
+    propiedad_id: str = None
+    correlacion_id: str = None
+
+
+@dataclass
+class CaracterizacionCreadaFallido(EventoDominio):
+    id: str = None
+    propiedad_id: str = None
+    correlacion_id: str = None

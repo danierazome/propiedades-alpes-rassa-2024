@@ -26,12 +26,10 @@ def comenzar_consumidor(app):
     import src.modulos.audit.infraestructura.consumidores as audit
 
     # # Suscripción a eventos
-    threading.Thread(target=audit.suscribirse_a_eventos, args=[app]).start()
-    # threading.Thread(target=vuelos.suscribirse_a_eventos).start()
-
-    # # Suscripción a comandos
-    # threading.Thread(target=cliente.suscribirse_a_comandos).start()
-    # threading.Thread(target=vuelos.suscribirse_a_comandos).start()
+    threading.Thread(
+        target=audit.suscribirse_a_comando_crear_auditoria, args=[app]).start()
+    threading.Thread(
+        target=audit.suscribirse_a_comando_eliminar_auditoria, args=[app]).start()
 
 
 def create_app(configuracion={}):

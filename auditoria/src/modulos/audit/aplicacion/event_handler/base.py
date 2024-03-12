@@ -3,7 +3,7 @@ from src.modulos.audit.infraestructura.fabricas import FabricaRepositorio
 from src.modulos.audit.dominio.fabricas import FabricaAuditoria
 
 
-class PlanoCreadoBaseHandler(EventHandler):
+class AuditoriaBaseHandler(EventHandler):
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
         self._fabrica_auditoria: FabricaAuditoria = FabricaAuditoria()
