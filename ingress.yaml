@@ -1,0 +1,39 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress-7
+  labels:
+    name: gateway-ingress-7
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /caracterizacion
+            backend:
+              service:
+                name: servicio-propiedades
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /planos
+            backend:
+              service:
+                name: servicio-planos
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /auditorias
+            backend:
+              service:
+                name: servicio-auditoria
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /auditar-planos
+            backend:
+              service:
+                name: servicio-auditar-plano
+                port:
+                  number: 80
