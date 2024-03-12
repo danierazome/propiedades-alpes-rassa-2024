@@ -5,10 +5,12 @@
 - Daniel Erazo
 - Santiago Rassa
 
-# Servicio Listado propiedades
-## Vista Informacion
-![image](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124454549/1c191643-5155-4be7-80dd-1930296dd54d)
+# Vista Funcional del sistema implementado
+![entrega_final_d_c_c](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/fcabbac4-f523-446c-b20a-053054003286)
 
+
+## Vista de Despliegue
+![image](https://github.com/danierazome/propiedades-alpes-rassa-2024/assets/124007154/cf8f1e30-8cd2-4db3-abf4-25c3e4797b25)
 # Instrucciones correr conponentes local
 
 ## Requisitos
@@ -25,8 +27,8 @@
 - Realizar pruebas utilizando la collection que se encuetra adjunta
 
 ## Collection
-[NO-MONOLITICAS.postman_colddddlection.json](https://github.com/danierazome/propiedades-alpes-rassa-2024/files/14492004/NO-MONOLITICAS.postman_colddddlection.json)
+[Colección de Postman](https://github.com/danierazome/propiedades-alpes-rassa-2024/files/14569593/NO-MONOLITerazICAS.postman_collection.json)
 
 
 ## Video
-https://github.com/danierazome/propiedades-alpes-rassa-2024/wiki/Entrega-4-Assets#video-entrega
+[Video-Entrega](https://github.com/danierazome/propiedades-alpes-rassa-2024/wiki/Entrega-5#video-entrega)
