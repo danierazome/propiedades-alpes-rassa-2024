@@ -88,7 +88,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DB_URL=postgresql://user:password@planos_db:5432/alpes
+      - DB_URL=postgresql://user:password@planos_db:5432/planos-alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
@@ -107,12 +107,13 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - DB_URL=postgresql://user:password@auditoria_db:5432/alpes
+      - DB_URL=postgresql://user:password@auditoria_db:5432/auditoria-alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
       - auditoria_net
       - pulsar_net
+      - bff_net
     depends_on:
       auditoria_db:
         condition: service_healthy
@@ -126,7 +127,7 @@ services:
     ports:
       - "5002:5002"
     environment:
-      - DB_URL=postgresql://user:password@propiedades_db:5432/alpes
+      - DB_URL=postgresql://user:password@propiedades_db:5432/propiedades-alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
@@ -145,12 +146,34 @@ services:
     ports:
       - "5003:5003"
     environment:
-      - DB_URL=postgresql://user:password@saga_log_db:5432/alpes
+      - DB_URL=postgresql://user:password@saga_log_db:5432/planos-alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
       - saga_net
       - pulsar_net
+      - bff_net
+    depends_on:
+      propiedades_db:
+        condition: service_healthy
+      pulsar-standalone:
+        condition: service_healthy
+
+  bff_management:
+    image: bff_management
+    build: ./bff
+    container_name: bff
+    ports:
+      - "8003:8003"
+    environment:
+      - PULSAR_HOST=pulsar-standalone
+    networks:
+      - app_net
+      - planos_net
+      - pulsar_net
+      - saga_net
+      - bff_net
+      - auditoria_net
     depends_on:
       propiedades_db:
         condition: service_healthy
@@ -171,3 +194,4 @@ networks:
   propiedades_net:
   saga_net:
   pulsar_net:
+  bff_net:
