@@ -28,14 +28,10 @@ def comenzar_consumidor(app):
     import src.modulos.caracterizacion.infraestructura.consumidores as cliente
     import src.modulos.caracterizacion.infraestructura.consumidores as vuelos
 
-    # # Suscripción a eventos
-    # threading.Thread(target=cliente.suscribirse_a_eventos).start()
-    # threading.Thread(target=vuelos.suscribirse_a_eventos).start()
-
-    # # Suscripción a comandos
     threading.Thread(
-        target=cliente.suscribirse_a_actualizar_caract_comando, args=[app]).start()
-    # threading.Thread(target=vuelos.suscribirse_a_comandos).start()
+        target=cliente.suscribirse_a_comando_crear_caract, args=[app]).start()
+    threading.Thread(
+        target=cliente.suscribirse_a_comando_eliminar_caract, args=[app]).start()
 
 
 def create_app(configuracion={}):

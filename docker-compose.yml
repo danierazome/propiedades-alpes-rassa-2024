@@ -65,6 +65,22 @@ services:
       timeout: 5s
       retries: 5
 
+  saga_log_db:
+    image: postgres:latest
+    container_name: saga-log-db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=planos-alpes
+    networks:
+      - planos_net
+      - saga_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d planos-alpes -U user"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
   planos_management:
     image: planos
     build: ./planos
@@ -72,11 +88,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DB_USER=user
-      - DB_PASSWORD=password
-      - DB_HOST=planos_db
-      - DB_PORT=5432
-      - DB_NAME=planos-alpes
+      - DB_URL=postgresql://user:password@planos_db:5432/alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
@@ -95,11 +107,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - DB_USER=user
-      - DB_PASSWORD=password
-      - DB_HOST=auditoria_db
-      - DB_PORT=5432
-      - DB_NAME=auditoria-alpes
+      - DB_URL=postgresql://user:password@auditoria_db:5432/alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
@@ -118,15 +126,30 @@ services:
     ports:
       - "5002:5002"
     environment:
-      - DB_USER=user
-      - DB_PASSWORD=password
-      - DB_HOST=propiedades_db
-      - DB_PORT=5432
-      - DB_NAME=propiedades-alpes
+      - DB_URL=postgresql://user:password@propiedades_db:5432/alpes
       - PULSAR_HOST=pulsar-standalone
     networks:
       - app_net
       - propiedades_net
+      - pulsar_net
+    depends_on:
+      propiedades_db:
+        condition: service_healthy
+      pulsar-standalone:
+        condition: service_healthy
+
+  auditar_planos:
+    image: auditar_planos
+    build: ./auditar_plano
+    container_name: auditar_planos
+    ports:
+      - "5003:5003"
+    environment:
+      - DB_URL=postgresql://user:password@saga_log_db:5432/alpes
+      - PULSAR_HOST=pulsar-standalone
+    networks:
+      - app_net
+      - saga_net
       - pulsar_net
     depends_on:
       propiedades_db:
@@ -164,4 +187,5 @@ networks:
   planos_net:
   auditoria_net:
   propiedades_net:
+  saga_net:
   pulsar_net:

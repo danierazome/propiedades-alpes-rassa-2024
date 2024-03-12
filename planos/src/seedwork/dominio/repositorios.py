@@ -28,11 +28,15 @@ class Repositorio(ABC):
         ...
 
     @abstractmethod
+    def agregar_dto(self, dto: any):
+        ...
+
+    @abstractmethod
     def actualizar(self, entity: Entidad):
         ...
 
     @abstractmethod
-    def eliminar(self, entity_id: UUID):
+    def eliminar(self, id: str):
         ...
 
 

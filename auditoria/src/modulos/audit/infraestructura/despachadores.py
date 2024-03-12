@@ -1,8 +1,9 @@
 import pulsar
 from pulsar.schema import *
 
-from src.modulos.audit.infraestructura.schema.v1.comandos import ComandoActualizarCaract, \
-    ComandoActualizarPlano, ComandoActualizarCaractPayload, ComandoActualizarPlanoPayload
+from src.modulos.audit.infraestructura.schema.v1.eventos import AuditoriaCreadaPayload, \
+    EventoAuditoriaCreada, AuditoriaCreadaFallidaPayload, EventoAuditoriaCreadaFallida, \
+    AuditoriaEliminadaPayload, EventoAuditoriaEliminada
 from src.seedwork.infraestructura import utils
 
 
@@ -14,22 +15,34 @@ class Despachador:
         publicador.send(mensaje)
         cliente.close()
 
-    def publicar_comando_actualizar_plano(self, comando, topico):
-        payload = ComandoActualizarPlanoPayload(
-            propiedad_id=comando.propiedad_id,
-            status=comando.status
+    def publicar_evento_auditoria_creada(self, evento, topico):
+        payload = AuditoriaCreadaPayload(
+            propiedad_id=evento.propiedad_id,
+            correlacion_id=evento.correlacion_id,
+            area_construida=evento.area_construida,
+            area_total=evento.area_total,
+            zone=evento.zone,
+            floors=evento.floors,
+            status=evento.status
         )
-        comando_integracion = ComandoActualizarPlano(data=payload)
-        self._publicar_mensaje(comando_integracion, topico,
-                               AvroSchema(ComandoActualizarPlano))
+        evento_integracion = EventoAuditoriaCreada(data=payload)
+        self._publicar_mensaje(evento_integracion, topico,
+                               AvroSchema(EventoAuditoriaCreada))
 
-    def publicar_comando_actualizar_caracterizacion(self, comando, topico):
-        payload = ComandoActualizarCaractPayload(
-            propiedad_id=comando.propiedad_id,
-            status=comando.status,
-            zone=comando.zone,
-            floors=comando.floors)
+    def publicar_evento_auditoria_eliminada(self, evento, topico):
+        payload = AuditoriaEliminadaPayload(
+            propiedad_id=evento.propiedad_id,
+            correlacion_id=evento.correlacion_id
+        )
+        evento_integracion = EventoAuditoriaEliminada(data=payload)
+        self._publicar_mensaje(evento_integracion, topico,
+                               AvroSchema(EventoAuditoriaEliminada))
 
-        comando_integracion = ComandoActualizarCaract(data=payload)
-        self._publicar_mensaje(comando_integracion, topico,
-                               AvroSchema(ComandoActualizarCaract))
+    def publicar_evento_auditoria_creada_fallida(self, evento, topico):
+        payload = AuditoriaCreadaFallidaPayload(
+            propiedad_id=evento.propiedad_id,
+            correlacion_id=evento.correlacion_id
+        )
+        evento_integracion = EventoAuditoriaCreadaFallida(data=payload)
+        self._publicar_mensaje(evento_integracion, topico,
+                               AvroSchema(EventoAuditoriaCreadaFallida))

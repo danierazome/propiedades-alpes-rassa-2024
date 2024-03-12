@@ -12,6 +12,9 @@ from .entidades import Entidad
 
 class Repositorio(ABC):
     @abstractmethod
+    def obtener_por_id_dto(self, id: str) -> any:
+        ...
+
     def obtener_por_id(self, id: UUID) -> Entidad:
         ...
 
@@ -28,7 +31,7 @@ class Repositorio(ABC):
         ...
 
     @abstractmethod
-    def eliminar(self, entity_id: UUID):
+    def eliminar(self, entity_id: str):
         ...
 
     @abstractmethod

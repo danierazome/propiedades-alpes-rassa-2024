@@ -7,8 +7,21 @@ from src.seedwork.dominio.eventos import (EventoDominio)
 class PlanoCreado(EventoDominio):
     id: str = None
     propiedad_id: str = None
-    area_construida: str = None
-    area_total: str = None
+    correlacion_id: str = None
     zone: int = None
     floors: int = None
-    client: str = None
+    status: str = None
+
+
+@dataclass
+class PlanoEliminado(EventoDominio):
+    id: str = None
+    propiedad_id: str = None
+    correlacion_id: str = None
+
+
+@dataclass
+class PlanoCreadoFallido(EventoDominio):
+    id: str = None
+    propiedad_id: str = None
+    correlacion_id: str = None

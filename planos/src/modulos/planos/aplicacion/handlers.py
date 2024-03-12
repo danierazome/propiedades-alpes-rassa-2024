@@ -6,21 +6,19 @@ from src.seedwork.aplicacion.handlers import Handler
 class HandlerPlanoIntegracion(Handler):
 
     @staticmethod
-    def handle_reserva_creada(evento):
+    def handle_plano_creada(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'evento-plano-creado')
+        despachador.publicar_evento_plano_creada(
+            evento, 'plano-creado-v1')
 
     @staticmethod
-    def handle_reserva_cancelada(evento):
+    def handle_plano_eliminada(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+        despachador.publicar_evento_plano_eliminada(
+            evento, 'plano-eliminada-v1')
 
     @staticmethod
-    def handle_reserva_aprobada(evento):
+    def handle_plano_creado_fallida(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
-
-    @staticmethod
-    def handle_reserva_pagada(evento):
-        despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+        despachador.publicar_evento_plano_creada_fallida(
+            evento, 'plano-creada-fallida-v1')

@@ -5,13 +5,19 @@ from src.modulos.audit.infraestructura.despachadores import Despachador
 class HandlerAuditoriaIntegracion(Handler):
 
     @staticmethod
-    def handle_actualizar_plano(evento):
+    def handle_auditoria_creada(evento):
         despachador = Despachador()
-        despachador.publicar_comando_actualizar_plano(
-            evento, 'actualizar-plano')
+        despachador.publicar_evento_auditoria_creada(
+            evento, 'auditoria-creado-v1')
 
     @staticmethod
-    def handle_actualizar_caracterizacion(evento):
+    def handle_auditoria_eliminada(evento):
         despachador = Despachador()
-        despachador.publicar_comando_actualizar_caracterizacion(
-            evento, 'actualizar-caracterizacion')
+        despachador.publicar_evento_auditoria_eliminada(
+            evento, 'auditoria-eliminada-v1')
+
+    @staticmethod
+    def handle_auditoria_creada_fallida(evento):
+        despachador = Despachador()
+        despachador.publicar_evento_auditoria_creada_fallida(
+            evento, 'auditoria-creada-fallida-v1')

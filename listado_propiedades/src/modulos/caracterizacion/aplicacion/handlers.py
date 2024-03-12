@@ -1,25 +1,23 @@
-# from aeroalpes.modulos.vuelos.dominio.eventos import ReservaCreada, ReservaCancelada, ReservaAprobada, ReservaPagada
-# from aeroalpes.seedwork.aplicacion.handlers import Handler
-# from aeroalpes.modulos.vuelos.infraestructura.despachadores import Despachador
+from src.seedwork.aplicacion.handlers import Handler
+from src.modulos.caracterizacion.infraestructura.despachadores import Despachador
 
-# class HandlerReservaIntegracion(Handler):
 
-#     @staticmethod
-#     def handle_reserva_creada(evento):
-#         despachador = Despachador()
-#         despachador.publicar_evento(evento, 'eventos-reserva')
+class HandlerCaractIntegracion(Handler):
 
-#     @staticmethod
-#     def handle_reserva_cancelada(evento):
-#         despachador = Despachador()
-#         despachador.publicar_evento(evento, 'eventos-reserva')
+    @staticmethod
+    def handle_caract_creada(evento):
+        despachador = Despachador()
+        despachador.publicar_evento_caract_creada(
+            evento, 'caract-creado-v1')
 
-#     @staticmethod
-#     def handle_reserva_aprobada(evento):
-#         despachador = Despachador()
-#         despachador.publicar_evento(evento, 'eventos-reserva')
+    @staticmethod
+    def handle_caract_eliminada(evento):
+        despachador = Despachador()
+        despachador.publicar_evento_caract_eliminada(
+            evento, 'caract-eliminada-v1')
 
-#     @staticmethod
-#     def handle_reserva_pagada(evento):
-#         despachador = Despachador()
-#         despachador.publicar_evento(evento, 'eventos-reserva')
+    @staticmethod
+    def handle_caract_creada_fallida(evento):
+        despachador = Despachador()
+        despachador.publicar_evento_caract_creada_fallida(
+            evento, 'caract-creada-fallida-v1')
