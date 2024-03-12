@@ -10,6 +10,13 @@ spec:
     - http:
         paths:
           - pathType: Prefix
+            path: /bff
+            backend:
+              service:
+                name: servicio-bff
+                port:
+                  number: 80
+          - pathType: Prefix
             path: /caracterizacion
             backend:
               service:
