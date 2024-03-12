@@ -134,6 +134,24 @@ services:
       pulsar-standalone:
         condition: service_healthy
 
+  bff_management:
+    image: bff_management
+    build: ./bff
+    container_name: bff
+    ports:
+      - "8003:8003"
+    environment:
+      - PULSAR_HOST=pulsar-standalone
+    networks:
+      - app_net
+      - planos_net
+      - pulsar_net
+    depends_on:
+      propiedades_db:
+        condition: service_healthy
+      pulsar-standalone:
+        condition: service_healthy
+
 volumes:
   planos-database-volume:
   auditoria-database-volume:

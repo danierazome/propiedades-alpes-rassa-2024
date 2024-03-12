@@ -34,9 +34,8 @@ def crear_plano_api():
 
         plano_dto = map_plano.externo_a_dto(plano_dict)
         comando = CrearPlano(planoDTO=plano_dto)
-
         ejecutar_commando(comando)
 
-        return Response('{}', status=202, mimetype='application/json')
+        return Response(f'{comando}', status=202, mimetype='application/json')
     except ExcepcionDominio as e:
         return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')
