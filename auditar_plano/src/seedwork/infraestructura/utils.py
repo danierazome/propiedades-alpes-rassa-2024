@@ -3,13 +3,13 @@ import time
 
 
 def database_url():
-    return 'postgresql://user:password@172.23.0.2:5432/alpes'
-    # return os.environ['DB_URL']
+    # return 'postgresql://user:password@172.23.0.2:5432/alpes'
+    return os.environ['DB_URL']
 
 
 def broker_host():
-    return '172.17.0.2'
-    # return os.environ['PULSAR_HOST']
+    # return '172.17.0.2'
+    return os.environ['PULSAR_HOST']
 
 
 def time_millis():
